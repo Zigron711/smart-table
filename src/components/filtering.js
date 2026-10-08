@@ -27,8 +27,15 @@ export function initFiltering(elements, indexes) {
             inp.value = '';
             state[dataField] = '';
         }
+        
+        const adapted = {...state};
+        if (adapted.totalFrom || adapted.totalTo) {
+            adapted.total = [adapted.totalFrom ? adapted.totalFrom : undefined, adapted.totalTo ? adapted.totalTo : undefined];
+            delete adapted.totalFrom;
+            delete adapted.totalTo;
+        }
 
         // @todo: #4.5 — отфильтровать данные используя компаратор
-        return data.filter(row => compare(row, state));
+        return data.filter(row => compare(row, adapted));
     }
 }
